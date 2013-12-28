@@ -1,7 +1,7 @@
 /*global module:false*/
 
-var SOURCE_PATH = "/source",
-    BUILD_PATH = "/build";
+// var SOURCE_PATH = "/source",
+//     BUILD_PATH = "/build";
 
 module.exports = function(grunt) {
 
