@@ -1,0 +1,11 @@
+@import "compass/css3";
+
+body {
+	background-color: #fff;
+	@include border-radius(20px);
+}
+
+div {
+	background-color: #fff;
+	@include border-radius(20px);
+}
