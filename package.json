@@ -1,0 +1,27 @@
+{
+  "name": "jQuery-vs-Zepto",
+  "version": "0.0.0",
+  "description": "Webapp to quickly compare jQuery and Zepto",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zachwolf/jQuery-vs-Zepto.git"
+  },
+  "keywords": [
+    "webapp",
+    "zepto",
+    "jquery"
+  ],
+  "author": "Zach Wolf",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/zachwolf/jQuery-vs-Zepto/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-compass": "~0.7.0"
+  }
+}
