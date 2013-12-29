@@ -27,10 +27,20 @@ module.exports = function(grunt) {
         }
       }
     },
+    connect: {
+      site: {
+        options: {
+          port: 9000,
+          base: 'build',
+          open: true,
+          livereload: true
+        }
+      }
+    },
     watch: {
       gruntfile: {
         files: ['./source/**/*'],
-        tasks: ['compass:dev', 'karma']
+        tasks: ['connect', 'compass:dev', 'karma']
         // files: ['/source/style/*.scss','/source/js/*.js'],
         // tasks: ['compass:dev', 'karma']
       }
@@ -42,16 +52,14 @@ module.exports = function(grunt) {
     }
   });
 
-  // These plugins provide necessary tasks.
-  // grunt.loadNpmTasks('grunt-contrib-qunit');
-  // grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 
   // Default task.
   // grunt.registerTask('default', ['jshint', 'qunit']);
-  grunt.registerTask('dev', ['compass:dev']);
+  grunt.registerTask('dev', ['compass:dev', 'karma']);
   grunt.registerTask('default', ['compass:dist']);
 
 };
