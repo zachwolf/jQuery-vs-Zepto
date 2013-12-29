@@ -8,6 +8,11 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Task configuration.
+    karma: {
+      unit: {
+        configFile: 'my.conf.js'
+      }
+    },
     compass: {
       dist: {
         options: {
@@ -24,8 +29,10 @@ module.exports = function(grunt) {
     },
     watch: {
       gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['compass:dev']
+        files: ['./source/**/*'],
+        tasks: ['compass:dev', 'karma']
+        // files: ['/source/style/*.scss','/source/js/*.js'],
+        // tasks: ['compass:dev', 'karma']
       }
       // ,
       // lib_test: {
@@ -38,6 +45,7 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   // grunt.loadNpmTasks('grunt-contrib-qunit');
   // grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
