@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       }
     },
     connect: {
-      site: {
+      local: {
         options: {
           port: 9000,
           base: BUILD_PATH,
@@ -176,7 +176,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev:watch', function () {
 
     // start a local server
-    grunt.task.run("connect:site");
+    grunt.task.run("connect:local");
 
     var conf = {
       // process style sheets on change
