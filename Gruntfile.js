@@ -27,7 +27,7 @@ module.exports = function(grunt) {
     karma: {
       unit: {
         singleRun: true,
-        configFile: 'my.conf.js'
+        configFile: 'karma.conf.js'
       }
     },
     compass: {
