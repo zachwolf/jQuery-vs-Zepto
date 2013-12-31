@@ -2,9 +2,7 @@ window.App = {};
 
 var x = "hi";
 
-if (x === "hi") {
-	console.log("foo");
-}
+console.log("foo");
 
 App.test = function () {
 	return "foo";
