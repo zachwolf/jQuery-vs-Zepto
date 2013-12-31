@@ -4,17 +4,16 @@
 
   X move JS
   X jslint
+  X HAML templating integration
 
-  - HAML templating integration
-  - require.js
   - livereload
-  - convert to grunt-init template
+  - require.js
   - impliment some sort of object extend to share jshint config options
-
   - set up build process
     - lint built scripts
     - minify scripts
     - minfy styles
+  - convert to grunt-init template
 
 */
 
@@ -32,6 +31,7 @@
 var SOURCE_PATH = "./source",
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
     SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
+    MARKUP_SOURCE_PATH = SOURCE_PATH + "/haml",
 
     BUILD_PATH = "./build",
     STYLE_BUILD_PATH = BUILD_PATH + "/style",
@@ -42,6 +42,16 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    // haml: {
+    //   dev: {
+    //     options: {
+    //       style: 'expanded'
+    //     },
+    //     files: {
+    //       'build/index.html': 'source/haml/index.haml'
+    //     }
+    //   }
+    // },
     // Task configuration.
     karma: {
       unit: {
@@ -114,14 +124,37 @@ module.exports = function(grunt) {
     }
   });
 
+  // grunt.loadNpmTasks('grunt-contrib-concat');
+
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-haml');
 
+
+  // compile haml
+  grunt.registerTask('haml:dev', function () {
+
+    var conf = {},
+        FILES = {};
+
+    FILES[ BUILD_PATH + "/index.html" ] = MARKUP_SOURCE_PATH + '/index.haml';
+
+    conf = {
+      markup: {
+        options: {
+          style: 'expanded'
+        },
+        files: FILES
+      }
+    };
+
+    grunt.config('haml', conf);
+    grunt.task.run("haml");
+  });
 
   // development tasks
   grunt.registerTask('dev:watch', function () {
@@ -150,6 +183,16 @@ module.exports = function(grunt) {
           'jshint:dev',
           'karma:unit',
           'copy:scripts'
+        ]
+      },
+      // compile html business
+      markup: {
+        files: [
+          MARKUP_SOURCE_PATH + '/*.haml',
+          MARKUP_SOURCE_PATH + '/**/*.haml'
+        ],
+        tasks: [
+          'haml:dev'
         ]
       }
     };
