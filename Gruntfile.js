@@ -6,8 +6,10 @@
   X jslint
 
   - HAML templating integration
+  - require.js
   - livereload
   - convert to grunt-init template
+  - impliment some sort of object extend to share jshint config options
 
   - set up build process
     - lint built scripts
@@ -26,8 +28,6 @@
       does xyz
 
 */
-
-/*global module:false*/
 
 var SOURCE_PATH = "./source",
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
