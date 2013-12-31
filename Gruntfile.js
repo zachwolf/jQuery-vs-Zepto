@@ -5,16 +5,17 @@
   X move JS
   X jslint
   X HAML templating integration
+  X livereload
 
-  - livereload
   - require.js
   - impliment some sort of object extend to share jshint config options
   - set up build process
     - lint built scripts
     - minify scripts
     - minfy styles
-  - remove un-needed packages
+  - remove un-needed packages from package.json
     - concat
+    - livereload
   - write contents directory
   - convert to grunt-init template
 
@@ -31,6 +32,7 @@
 
 */
 
+
 var SOURCE_PATH = "./source",
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
     SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
@@ -42,8 +44,6 @@ var SOURCE_PATH = "./source",
 
 
 module.exports = function(grunt) {
-
-  // grunt.loadNpmTasks('grunt-contrib-concat');
 
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-compass');
@@ -155,6 +155,8 @@ module.exports = function(grunt) {
     grunt.task.run("connect:local");
 
     var conf = {
+      // reload the page when things change
+      options: { livereload: true },
       // process style sheets on change
       styles: {
         files: [
