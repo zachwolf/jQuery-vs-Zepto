@@ -1,5 +1,5 @@
 window.App = {};
 
-// App.test = function () {
+App.test = function () {
 // 	// return "foo";
-// };
+};

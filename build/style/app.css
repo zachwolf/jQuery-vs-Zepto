@@ -1,6 +1,7 @@
 /* line 3, ../../source/style/app.scss */
 body {
-  background-color: #fff;
+  background-color: #f0f;
+  border: 11px solid green;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
@@ -8,7 +9,7 @@ body {
   border-radius: 20px;
 }
 
-/* line 8, ../../source/style/app.scss */
+/* line 9, ../../source/style/app.scss */
 div {
   background-color: #fff;
   -webkit-border-radius: 20px;

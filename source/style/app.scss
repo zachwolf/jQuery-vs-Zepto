@@ -1,7 +1,8 @@
 @import "compass/css3";
 
 body {
-	background-color: #fff;
+	background-color: #666;
+	border: 11px solid green;
 	@include border-radius(20px);
 }
 
