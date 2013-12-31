@@ -4,6 +4,8 @@
 
   - HAML templating integration
   - jslint
+  X move JS
+  - move/minify JS
   - livereload
   - convert to grunt-init template
 
@@ -14,10 +16,13 @@ var util = require('util');
 /*global module:false*/
 
 var SOURCE_PATH = "./source",
-    BUILD_PATH = "./build",
-
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
-    STYLE_SCRIPT_PATH = SOURCE_PATH + "/js";
+    SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
+
+    BUILD_PATH = "./build",
+    STYLE_BUILD_PATH = BUILD_PATH + "/style",
+    SCRIPT_BUILD_PATH = BUILD_PATH + "/js";
+
 
 module.exports = function(grunt) {
 
@@ -52,7 +57,20 @@ module.exports = function(grunt) {
           open: true
         }
       }
-    }//,
+    },
+    copy: {
+      scripts: {
+        files: [
+          {
+            expand: true,
+            cwd: SCRIPT_SOURCE_PATH + '/',
+            // copy all js and directories except our tests
+            src: [ '**', '!' + 'test/**' ],
+            dest: SCRIPT_BUILD_PATH
+          }
+        ]
+      }
+    }
     // watch: {
       /*
       gruntfile: {
@@ -161,12 +179,15 @@ module.exports = function(grunt) {
 
   // });
 
+
+
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default task.
   // grunt.registerTask('default', ['jshint', 'qunit']);
@@ -192,8 +213,8 @@ module.exports = function(grunt) {
       // process js on change
       scripts: {
         files: [
-          STYLE_SCRIPT_PATH + '/*.js',
-          STYLE_SCRIPT_PATH + '/**/*.js'
+          SCRIPT_SOURCE_PATH + '/*.js',
+          SCRIPT_SOURCE_PATH + '/**/*.js'
         ],
         tasks: [
           // lint files
