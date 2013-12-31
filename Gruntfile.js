@@ -13,6 +13,9 @@
     - lint built scripts
     - minify scripts
     - minfy styles
+  - remove un-needed packages
+    - concat
+  - write contents directory
   - convert to grunt-init template
 
 */
@@ -40,19 +43,18 @@ var SOURCE_PATH = "./source",
 
 module.exports = function(grunt) {
 
+  // grunt.loadNpmTasks('grunt-contrib-concat');
+
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-haml');
+
   // Project configuration.
   grunt.initConfig({
-    // haml: {
-    //   dev: {
-    //     options: {
-    //       style: 'expanded'
-    //     },
-    //     files: {
-    //       'build/index.html': 'source/haml/index.haml'
-    //     }
-    //   }
-    // },
-    // Task configuration.
     karma: {
       unit: {
         singleRun: true,
@@ -90,10 +92,11 @@ module.exports = function(grunt) {
           curly:    true,
           eqeqeq:   true,
           eqnull:   true,
-          browser:  true,
-          globals: {
-            // jQuery: true
-          }
+          browser:  true
+          // ,
+          // globals: {
+          //   jQuery: true
+          // }
         },
         files: {
           src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js' ]
@@ -123,17 +126,6 @@ module.exports = function(grunt) {
       }
     }
   });
-
-  // grunt.loadNpmTasks('grunt-contrib-concat');
-
-  grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-haml');
-
 
   // compile haml
   grunt.registerTask('haml:dev', function () {
