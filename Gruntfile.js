@@ -11,6 +11,7 @@
   X clean task (delete and re compile all of build)
   X impliment some sort of object extend to share jshint config options
 
+  ? run watch tasks once when starting watch
   - set up build process
     ? lint built scripts
     - minify scripts
@@ -20,6 +21,8 @@
     - livereload
     - requirejs ?
   - write contents directory
+  ? clean up / unify / organize Gruntfile
+    ? external tasks
   - convert to grunt-init template
 
 */
