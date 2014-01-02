@@ -4,9 +4,7 @@
  * see: http://github.com/requirejs/domReady for details
  */
 /*jslint */
-/*global require: false, define: false, requirejs: false,
-  window: false, clearInterval: false, document: false,
-  self: false, setInterval: false */
+/*global $:true */
 
 
 define(function () {

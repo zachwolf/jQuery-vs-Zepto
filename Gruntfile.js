@@ -6,20 +6,19 @@
   X jshint
   X HAML templating integration
   X livereload
+  X require.js
+  X don't run lib files through jshint
+  X clean task (delete and re compile all of build)
+  X impliment some sort of object extend to share jshint config options
 
-  ? require.js
-
-  - don't run lib files through jshint
-  - clean task (delete and re compile all of build)
-  - impliment some sort of object extend to share jshint config options
   - set up build process
-    - lint built scripts
+    ? lint built scripts
     - minify scripts
     - minfy styles
   - remove un-needed packages from package.json
     - concat
     - livereload
-    - requirejs
+    - requirejs ?
   - write contents directory
   - convert to grunt-init template
 
@@ -35,7 +34,7 @@
       does xyz
 
 */
-
+var util = require('util');
 
 var SOURCE_PATH = "./source",
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
@@ -46,7 +45,6 @@ var SOURCE_PATH = "./source",
     STYLE_BUILD_PATH = BUILD_PATH + "/style",
     SCRIPT_BUILD_PATH = BUILD_PATH + "/js";
 
-
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-karma');
@@ -56,6 +54,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-haml');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Project configuration.
   grunt.initConfig({
@@ -96,10 +95,10 @@ module.exports = function(grunt) {
           curly:    true,
           eqeqeq:   true,
           eqnull:   true,
-          browser:  true,
+          browser:  true/*,
           globals: {
             define: true
-          }
+          }*/
         },
         files: {
           src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
@@ -128,7 +127,8 @@ module.exports = function(grunt) {
           }
         ]
       }
-    }
+    },
+    clean: ["build"]
   });
 
   // compile haml
@@ -150,6 +150,17 @@ module.exports = function(grunt) {
 
     grunt.config('haml', conf);
     grunt.task.run("haml");
+  });
+
+  grunt.registerTask('debug', function () {
+    // grunt.file.write("test.txt", util.inspect(grunt, { showHidden: true, depth: null }));
+    
+    if (this.flags.clean) {
+      write = "clean";
+    } else {
+      write = "no clean";
+    }
+    grunt.file.write("test.txt", write);
   });
 
   // development tasks
@@ -197,6 +208,19 @@ module.exports = function(grunt) {
 
     grunt.config('watch', conf);
     grunt.task.run("watch");
+  });
+
+  grunt.registerTask('buildDev', function () {
+
+    if (this.flags.clean) {
+      grunt.task.run("clean");
+    }
+    
+    grunt.task.run('compass:dev');
+    grunt.task.run('jshint:dev');
+    grunt.task.run('karma:unit');
+    grunt.task.run('copy:scripts');
+    grunt.task.run('haml:dev');
   });
 
   grunt.registerTask('default', ['compass:dist']);

@@ -1,12 +1,21 @@
-console.log("-------------------------------------------------");
-console.log("App loaded");
-console.log("-------------------------------------------------");
+requirejs.config({
+    paths: {
+        'jquery': '../lib/jquery',
+        'underscore': '../lib/underscore'
+    },
+
+    shim: {
+        'underscore': {
+            exports: '_'
+        }
+    }
+});
 
 define(function () {
 
 	var App = "hi";
 
-	// var App;
+	console.log("app loaded");
 
 	return App;
 

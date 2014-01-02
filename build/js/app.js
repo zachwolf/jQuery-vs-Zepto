@@ -1,14 +1,21 @@
+requirejs.config({
+    paths: {
+        'jquery': '../lib/jquery',
+        'underscore': '../lib/underscore'
+    },
+
+    shim: {
+        'underscore': {
+            exports: '_'
+        }
+    }
+});
+
 define(function () {
 
-	window.App = {};
+	var App = "hi";
 
-	var x = "hi";
-
-	console.log("foo bar!");
-
-	App.test = function () {
-		return "foo";
-	};
+	console.log("app loaded");
 
 	return App;
 
