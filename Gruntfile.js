@@ -3,11 +3,14 @@
   # TODOS
 
   X move JS
-  X jslint
+  X jshint
   X HAML templating integration
   X livereload
 
-  - require.js
+  ? require.js
+
+  - don't run lib files through jshint
+  - clean task (delete and re compile all of build)
   - impliment some sort of object extend to share jshint config options
   - set up build process
     - lint built scripts
@@ -16,6 +19,7 @@
   - remove un-needed packages from package.json
     - concat
     - livereload
+    - requirejs
   - write contents directory
   - convert to grunt-init template
 
@@ -92,14 +96,14 @@ module.exports = function(grunt) {
           curly:    true,
           eqeqeq:   true,
           eqnull:   true,
-          browser:  true
-          // ,
-          // globals: {
-          //   jQuery: true
-          // }
+          browser:  true,
+          globals: {
+            define: true
+          }
         },
         files: {
-          src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js' ]
+          src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
+                 "!" + SCRIPT_SOURCE_PATH + '/lib/*.js']
         }
       }
     },
@@ -117,7 +121,7 @@ module.exports = function(grunt) {
         files: [
           {
             // copy all js and directories except our tests
-            src: [ '**', '!' + 'test/**' ],
+            src: [ '**', '!test/**' ],
             expand: true,
             cwd: SCRIPT_SOURCE_PATH + '/',
             dest: SCRIPT_BUILD_PATH

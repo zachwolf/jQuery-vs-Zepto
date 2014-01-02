@@ -1,9 +1,15 @@
-window.App = {};
+define(function () {
 
-var x = "hi";
+	window.App = {};
 
-console.log("foo bar!");
+	var x = "hi";
 
-App.test = function () {
-	return "foo";
-};
+	console.log("foo bar!");
+
+	App.test = function () {
+		return "foo";
+	};
+
+	return App;
+
+});

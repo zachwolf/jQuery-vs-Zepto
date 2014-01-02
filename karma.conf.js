@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Sat Dec 28 2013 15:41:15 GMT-0600 (CST)
+// Generated on Tue Dec 31 2013 22:30:58 GMT-0600 (CST)
 
 module.exports = function(config) {
   config.set({
@@ -7,15 +7,17 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
-
     // frameworks to use
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'requirejs'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'source/js/*.js',
-      'source/js/test/*Spec.js'
+      'source/js/test/test-main.js',
+      {pattern: 'source/js/*.js', included: false},
+      {pattern: 'source/js/**/*.js', included: false},
+      {pattern: 'source/js/test/*Spec.js', included: false},
+      {pattern: 'source/js/test/**/*Spec.js', included: false}
     ],
 
 
@@ -40,7 +42,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -55,7 +57,8 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Chrome', 'Firefox', 'PhantomJS', 'Safari'],
+    // browsers: ['Chrome', 'Firefox', 'Safari', 'PhantomJS', 'Opera'],
+    browsers: ['PhantomJS'],
 
 
     // If browser does not capture in given timeout [ms], kill it

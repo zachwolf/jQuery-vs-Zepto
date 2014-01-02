@@ -1,9 +1,13 @@
-window.App = {};
+console.log("-------------------------------------------------");
+console.log("App loaded");
+console.log("-------------------------------------------------");
 
-var x = "hi";
+define(function () {
 
-console.log("foo bar!");
+	var App = "hi";
 
-App.test = function () {
-	return "foo";
-};
+	// var App;
+
+	return App;
+
+});
