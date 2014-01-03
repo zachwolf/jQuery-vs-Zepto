@@ -15,8 +15,6 @@ define(function () {
 
 	var App = "hi";
 
-	console.log("app loaded");
-
 	return App;
 
 });

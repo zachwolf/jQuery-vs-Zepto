@@ -1,7 +1,3 @@
-// console.log("-------------------------------------------------");
-// console.log("window.__karma__.files", window.__karma__.files);
-// console.log("-------------------------------------------------");
-
 var tests = [];
 for (var file in window.__karma__.files) {
     if (/Spec\.js$/.test(file)) {
@@ -11,7 +7,6 @@ for (var file in window.__karma__.files) {
 
 requirejs.config({
     // Karma serves files from '/base'
-    // baseUrl: '/base/src/source/js',
     baseUrl: '/base/source/js',
 
     paths: {

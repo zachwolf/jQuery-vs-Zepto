@@ -132,7 +132,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    clean: ["build"]
+    clean: [ BUILD_PATH ]
   });
 
   // compile haml
@@ -169,6 +169,9 @@ module.exports = function(grunt) {
 
   // development tasks
   grunt.registerTask('dev:watch', function () {
+
+    // clean out and recompile all of BUILD_PATH
+    grunt.task.run("buildDev:clean");
 
     // start a local server
     grunt.task.run("connect:local");
