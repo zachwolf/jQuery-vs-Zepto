@@ -10,8 +10,8 @@
   X don't run lib files through jshint
   X clean task (delete and re compile all of build)
   X impliment some sort of object extend to share jshint config options
+  X run watch tasks once when starting watch
 
-  ? run watch tasks once when starting watch
   - set up build process
     ? lint built scripts
     - minify scripts
