@@ -38,7 +38,8 @@
       does xyz
 
 */
-var util = require('util');
+var util = require('util'),
+    _    = require('underscore');
 
 var SOURCE_PATH = "./source",
     STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
