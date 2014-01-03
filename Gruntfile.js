@@ -21,7 +21,8 @@
     - livereload
     - requirejs ?
   - write contents directory
-  ? clean up / unify / organize Gruntfile
+  - clean up / unify / organize Gruntfile
+    - add descriptions to grunt tasks
     ? external tasks
   - convert to grunt-init template
 
