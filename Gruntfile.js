@@ -14,8 +14,9 @@
 
   - set up build process
     ? lint built scripts
+    X shared objects
     - minify scripts
-    - minfy styles
+    - minify styles
   - remove un-needed packages from package.json
     - concat
     - livereload
@@ -41,14 +42,37 @@
 var util = require('util'),
     _    = require('underscore');
 
-var SOURCE_PATH = "./source",
-    STYLE_SOURCE_PATH = SOURCE_PATH + "/style",
+var SOURCE_PATH        = "./source",
+    STYLE_SOURCE_PATH  = SOURCE_PATH + "/style",
     SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
     MARKUP_SOURCE_PATH = SOURCE_PATH + "/haml",
 
-    BUILD_PATH = "./build",
-    STYLE_BUILD_PATH = BUILD_PATH + "/style",
-    SCRIPT_BUILD_PATH = BUILD_PATH + "/js";
+    BUILD_PATH        = "./build",
+    STYLE_BUILD_PATH  = BUILD_PATH + "/style",
+    SCRIPT_BUILD_PATH = BUILD_PATH + "/js",
+
+    JSHINT_BASE_SETTINGS  = {
+        "bitwise"  : true,
+        "curly"    : true,
+        "eqeqeq"   : true,
+        "forin"    : true,
+        "freeze"   : true,
+        "latedef"  : true,
+        "newcap"   : true,
+        "noarg"    : true,
+        "noempty"  : true,
+        "newnew"   : true,
+        "plusplus" : true,
+        "undef"    : true,
+        "unuse"    : true,
+        "strict"   : true,
+        "trailing" : true
+      },
+    JSHINT_DIST_SETTINGS  = _.extend({
+      }, JSHINT_BASE_SETTINGS),
+    JSHINT_DEV_SETTINGS   = _.extend({
+        "debug": true
+      }, JSHINT_BASE_SETTINGS);
 
 module.exports = function(grunt) {
 
@@ -87,24 +111,15 @@ module.exports = function(grunt) {
       dist: {
         // beforeconcat: ['src/foo.js', 'src/bar.js'],
         // afterconcat: ['dist/output.js']
+        options: JSHINT_DIST_SETTINGS,
+        files: {
+          src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
+                 "!" + SCRIPT_SOURCE_PATH + '/lib/*.js',
+                 "!" + SCRIPT_SOURCE_PATH + '/test/*.js']
+        }
       },
       dev: {
-        options: {
-          debug:    true,
-          bitwise:  true,
-          freeze:   true,
-          latedef:  true,
-          newcap:   true,
-          noarg:    true,
-          trailing: true,
-          curly:    true,
-          eqeqeq:   true,
-          eqnull:   true,
-          browser:  true/*,
-          globals: {
-            define: true
-          }*/
-        },
+        options: JSHINT_DEV_SETTINGS,
         files: {
           src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
                  "!" + SCRIPT_SOURCE_PATH + '/lib/*.js']
@@ -172,7 +187,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev:watch', function () {
 
     // clean out and recompile all of BUILD_PATH
-    grunt.task.run("buildDev:clean");
+    grunt.task.run("buildDev");
 
     // start a local server
     grunt.task.run("connect:local");
@@ -220,15 +235,24 @@ module.exports = function(grunt) {
 
   grunt.registerTask('buildDev', function () {
 
-    if (this.flags.clean) {
-      grunt.task.run("clean");
-    }
-    
+    grunt.task.run("clean");
     grunt.task.run('compass:dev');
     grunt.task.run('jshint:dev');
     grunt.task.run('karma:unit');
     grunt.task.run('copy:scripts');
     grunt.task.run('haml:dev');
+  });
+
+  grunt.registerTask('buildDist', function () {
+
+    grunt.task.run("clean");
+    
+    grunt.task.run('compass:dist');
+    grunt.task.run('jshint:dist');
+    grunt.task.run('karma:unit');
+    // minify and copy scripts
+    // grunt.task.run('copy:scripts');
+    // grunt.task.run('haml:dev');
   });
 
   grunt.registerTask('default', ['compass:dist']);
