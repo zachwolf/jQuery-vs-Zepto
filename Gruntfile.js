@@ -20,9 +20,9 @@
     X concat
     X livereload
 
-  - write contents directory
   - clean up / unify / organize Gruntfile
     - add descriptions to grunt tasks
+      - write contents directory
     ? external tasks
   - convert to grunt-init template
 
