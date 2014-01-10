@@ -11,16 +11,15 @@
   X clean task (delete and re compile all of build)
   X impliment some sort of object extend to share jshint config options
   X run watch tasks once when starting watch
-
-  - set up build process
+  ? set up build process
     ? lint built scripts
+    ? require build
     X shared objects
-    - require build / minify scripts
     X minify styles
-  - remove un-needed packages from package.json
-    - concat
-    - livereload
-    - requirejs ?
+  X remove un-needed packages from package.json
+    X concat
+    X livereload
+
   - write contents directory
   - clean up / unify / organize Gruntfile
     - add descriptions to grunt tasks
