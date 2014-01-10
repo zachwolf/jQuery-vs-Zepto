@@ -15,7 +15,7 @@
   - set up build process
     ? lint built scripts
     X shared objects
-    - minify scripts
+    - require build / minify scripts
     - minify styles
   - remove un-needed packages from package.json
     - concat
