@@ -13,8 +13,10 @@ requirejs.config({
 
 define(function () {
 
-	var App = "hi";
+    "use strict";
 
-	return App;
+	var app = "hi";
+
+	return app;
 
 });

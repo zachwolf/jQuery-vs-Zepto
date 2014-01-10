@@ -16,7 +16,7 @@
     ? lint built scripts
     X shared objects
     - require build / minify scripts
-    - minify styles
+    X minify styles
   - remove un-needed packages from package.json
     - concat
     - livereload
@@ -61,12 +61,20 @@ var SOURCE_PATH        = "./source",
         "newcap"   : true,
         "noarg"    : true,
         "noempty"  : true,
-        "newnew"   : true,
+        "nonew"   : true,
         "plusplus" : true,
         "undef"    : true,
-        "unuse"    : true,
+        "unused"    : true,
         "strict"   : true,
-        "trailing" : true
+        "trailing" : true,
+        "globals"  : {
+          "requirejs" : true,
+          "describe"  : true,
+          "define"    : true,
+          "expect"    : true,
+          "window"    : true,
+          "it"        : true
+        }
       },
     JSHINT_DIST_SETTINGS  = _.extend({
       }, JSHINT_BASE_SETTINGS),
