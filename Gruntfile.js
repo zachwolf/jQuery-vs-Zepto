@@ -11,19 +11,22 @@
   X clean task (delete and re compile all of build)
   X impliment some sort of object extend to share jshint config options
   X run watch tasks once when starting watch
-  ? set up build process
-    ? lint built scripts
-    ? require build
-    X shared objects
-    X minify styles
   X remove un-needed packages from package.json
     X concat
     X livereload
+  X set up build process
+    ? lint built scripts
+    X require build
+    X shared objects
+    X minify styles
 
-  - clean up / unify / organize Gruntfile
+  - Gruntfile.js changes
     - add descriptions to grunt tasks
       - write contents directory
-    ? external tasks
+    - organize
+    - unify
+      ? external tasks
+    - clean up
   - convert to grunt-init template
 
 */
@@ -60,13 +63,23 @@ var SOURCE_PATH        = "./source",
         "newcap"   : true,
         "noarg"    : true,
         "noempty"  : true,
-        "nonew"   : true,
+        "nonew"    : true,
         "plusplus" : true,
         "undef"    : true,
-        "unused"    : true,
+        "unused"   : true,
         "strict"   : true,
-        "trailing" : true,
-        "globals"  : {
+        "trailing" : true
+      },
+    JSHINT_DIST_SETTINGS  = _.extend({
+        "globals" : {
+          "requirejs" : true,
+          "define"    : true,
+          "window"    : true
+        }
+      }, JSHINT_BASE_SETTINGS),
+    JSHINT_DEV_SETTINGS   = _.extend({
+        "debug"   : true,
+        "globals" : {
           "requirejs" : true,
           "describe"  : true,
           "define"    : true,
@@ -74,11 +87,6 @@ var SOURCE_PATH        = "./source",
           "window"    : true,
           "it"        : true
         }
-      },
-    JSHINT_DIST_SETTINGS  = _.extend({
-      }, JSHINT_BASE_SETTINGS),
-    JSHINT_DEV_SETTINGS   = _.extend({
-        "debug": true
       }, JSHINT_BASE_SETTINGS);
 
 module.exports = function(grunt) {
@@ -91,6 +99,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-haml');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   // Project configuration.
   grunt.initConfig({
@@ -153,6 +162,16 @@ module.exports = function(grunt) {
             dest: SCRIPT_BUILD_PATH
           }
         ]
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          name: "app",
+          baseUrl: SCRIPT_SOURCE_PATH,
+          mainConfigFile: SCRIPT_SOURCE_PATH + "/app.js",
+          out: SCRIPT_BUILD_PATH + "/app.js"
+        }
       }
     },
     clean: [ BUILD_PATH ]
@@ -243,6 +262,7 @@ module.exports = function(grunt) {
   grunt.registerTask('buildDev', function () {
 
     grunt.task.run("clean");
+
     grunt.task.run('compass:dev');
     grunt.task.run('jshint:dev');
     grunt.task.run('karma:unit');
@@ -257,11 +277,10 @@ module.exports = function(grunt) {
     grunt.task.run('compass:dist');
     grunt.task.run('jshint:dist');
     grunt.task.run('karma:unit');
-    // minify and copy scripts
-    // grunt.task.run('copy:scripts');
-    // grunt.task.run('haml:dev');
+    grunt.task.run('requirejs:compile');
+    grunt.task.run('haml:dev');
   });
 
-  grunt.registerTask('default', ['compass:dist']);
+  // grunt.registerTask('default', ['compass:dist']);
 
 };
