@@ -25,7 +25,7 @@
       - write contents directory
     - organize
     - unify
-      ? external tasks
+      X external tasks
     - clean up
   - convert to grunt-init template
 
@@ -41,58 +41,10 @@
       does xyz
 
 */
-var _ = require('underscore'),
-
-    // source settings
-    SOURCE_PATH        = "./source",
-    STYLE_SOURCE_PATH  = SOURCE_PATH + "/style",
-    SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
-    MARKUP_SOURCE_PATH = SOURCE_PATH + "/haml",
-
-    // build settings
-    BUILD_PATH        = "./build",
-    STYLE_BUILD_PATH  = BUILD_PATH + "/style",
-    SCRIPT_BUILD_PATH = BUILD_PATH + "/js",
 
     // task settings
-    GRUNT_TASKS_PATH  = "./grunt-tasks",
-
-    // hint settings
-    JSHINT_BASE_SETTINGS  = {
-        "bitwise"  : true,
-        "curly"    : true,
-        "eqeqeq"   : true,
-        "forin"    : true,
-        "freeze"   : true,
-        "latedef"  : true,
-        "newcap"   : true,
-        "noarg"    : true,
-        "noempty"  : true,
-        "nonew"    : true,
-        "plusplus" : true,
-        "undef"    : true,
-        "unused"   : true,
-        "strict"   : true,
-        "trailing" : true
-      },
-    JSHINT_DIST_SETTINGS  = _.extend({
-        "globals" : {
-          "requirejs" : true,
-          "define"    : true,
-          "window"    : true
-        }
-      }, JSHINT_BASE_SETTINGS),
-    JSHINT_DEV_SETTINGS   = _.extend({
-        "debug"   : true,
-        "globals" : {
-          "requirejs" : true,
-          "describe"  : true,
-          "define"    : true,
-          "expect"    : true,
-          "window"    : true,
-          "it"        : true
-        }
-      }, JSHINT_BASE_SETTINGS);
+var GRUNT_TASKS_PATH  = "./grunt-tasks",
+    SETTINGS = require( GRUNT_TASKS_PATH + "/globalSettings" );
 
 module.exports = function(grunt) {
 
@@ -120,18 +72,18 @@ module.exports = function(grunt) {
     },
     jshint: {
       dist: {
-        options: JSHINT_DIST_SETTINGS,
+        options: SETTINGS.JSHINT_DIST_SETTINGS,
         files: {
-          src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
-                 "!" + SCRIPT_SOURCE_PATH + '/lib/*.js',
-                 "!" + SCRIPT_SOURCE_PATH + '/test/*.js']
+          src: [ SETTINGS.SCRIPT_SOURCE_PATH + '/*.js', SETTINGS.SCRIPT_SOURCE_PATH + '/**/*.js',
+                 "!" + SETTINGS.SCRIPT_SOURCE_PATH + '/lib/*.js',
+                 "!" + SETTINGS.SCRIPT_SOURCE_PATH + '/test/*.js']
         }
       },
       dev: {
-        options: JSHINT_DEV_SETTINGS,
+        options: SETTINGS.JSHINT_DEV_SETTINGS,
         files: {
-          src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
-                 "!" + SCRIPT_SOURCE_PATH + '/lib/*.js']
+          src: [ SETTINGS.SCRIPT_SOURCE_PATH + '/*.js', SETTINGS.SCRIPT_SOURCE_PATH + '/**/*.js',
+                 "!" + SETTINGS.SCRIPT_SOURCE_PATH + '/lib/*.js']
         }
       }
     },
@@ -139,7 +91,7 @@ module.exports = function(grunt) {
       local: {
         options: {
           port: 9000,
-          base: BUILD_PATH,
+          base: SETTINGS.BUILD_PATH,
           open: true
         }
       }
@@ -151,8 +103,8 @@ module.exports = function(grunt) {
             // copy all js and directories except our tests
             src: [ '**', '!test/**' ],
             expand: true,
-            cwd: SCRIPT_SOURCE_PATH + '/',
-            dest: SCRIPT_BUILD_PATH
+            cwd: SETTINGS.SCRIPT_SOURCE_PATH + '/',
+            dest: SETTINGS.SCRIPT_BUILD_PATH
           }
         ]
       }
@@ -161,13 +113,13 @@ module.exports = function(grunt) {
       compile: {
         options: {
           name: "app",
-          baseUrl: SCRIPT_SOURCE_PATH,
-          mainConfigFile: SCRIPT_SOURCE_PATH + "/app.js",
-          out: SCRIPT_BUILD_PATH + "/app.js"
+          baseUrl: SETTINGS.SCRIPT_SOURCE_PATH,
+          mainConfigFile: SETTINGS.SCRIPT_SOURCE_PATH + "/app.js",
+          out: SETTINGS.SCRIPT_BUILD_PATH + "/app.js"
         }
       }
     },
-    clean: [ BUILD_PATH ]
+    clean: [ SETTINGS.BUILD_PATH ]
   });
 
 
