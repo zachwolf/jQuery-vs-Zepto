@@ -21,12 +21,12 @@
     X minify styles
 
   - Gruntfile.js changes
-    - add descriptions to grunt tasks
+    X add descriptions to grunt tasks
       - write contents directory
-    - organize
-    - unify
+    X organize
+    X unify
       X external tasks
-    - clean up
+    X clean up
   - convert to grunt-init template
 
 */
