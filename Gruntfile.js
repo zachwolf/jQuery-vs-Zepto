@@ -91,15 +91,8 @@ var SOURCE_PATH        = "./source",
 
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-haml');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  // load all required grunt tasks dependencies
+  require('load-grunt-tasks')(grunt);
 
   // Project configuration.
   grunt.initConfig({
