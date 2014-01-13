@@ -41,18 +41,23 @@
       does xyz
 
 */
-var util = require('util'),
-    _    = require('underscore');
+var _ = require('underscore'),
 
-var SOURCE_PATH        = "./source",
+    // source settings
+    SOURCE_PATH        = "./source",
     STYLE_SOURCE_PATH  = SOURCE_PATH + "/style",
     SCRIPT_SOURCE_PATH = SOURCE_PATH + "/js",
     MARKUP_SOURCE_PATH = SOURCE_PATH + "/haml",
 
+    // build settings
     BUILD_PATH        = "./build",
     STYLE_BUILD_PATH  = BUILD_PATH + "/style",
     SCRIPT_BUILD_PATH = BUILD_PATH + "/js",
 
+    // task settings
+    GRUNT_TASKS_PATH  = "./grunt-tasks",
+
+    // hint settings
     JSHINT_BASE_SETTINGS  = {
         "bitwise"  : true,
         "curly"    : true,
@@ -91,9 +96,6 @@ var SOURCE_PATH        = "./source",
 
 module.exports = function(grunt) {
 
-  // load all required grunt tasks dependencies
-  require('load-grunt-tasks')(grunt);
-
   // Project configuration.
   grunt.initConfig({
     karma: {
@@ -118,8 +120,6 @@ module.exports = function(grunt) {
     },
     jshint: {
       dist: {
-        // beforeconcat: ['src/foo.js', 'src/bar.js'],
-        // afterconcat: ['dist/output.js']
         options: JSHINT_DIST_SETTINGS,
         files: {
           src: [ SCRIPT_SOURCE_PATH + '/*.js', SCRIPT_SOURCE_PATH + '/**/*.js',
@@ -170,110 +170,11 @@ module.exports = function(grunt) {
     clean: [ BUILD_PATH ]
   });
 
-  // compile haml
-  grunt.registerTask('haml:dev', function () {
 
-    var conf = {},
-        FILES = {};
+  // load all required grunt tasks dependencies
+  require('load-grunt-tasks')(grunt);
 
-    FILES[ BUILD_PATH + "/index.html" ] = MARKUP_SOURCE_PATH + '/index.haml';
-
-    conf = {
-      markup: {
-        options: {
-          style: 'expanded'
-        },
-        files: FILES
-      }
-    };
-
-    grunt.config('haml', conf);
-    grunt.task.run("haml");
-  });
-
-  grunt.registerTask('debug', function () {
-    // grunt.file.write("test.txt", util.inspect(grunt, { showHidden: true, depth: null }));
-    
-    if (this.flags.clean) {
-      write = "clean";
-    } else {
-      write = "no clean";
-    }
-    grunt.file.write("test.txt", write);
-  });
-
-  // development tasks
-  grunt.registerTask('dev:watch', function () {
-
-    // clean out and recompile all of BUILD_PATH
-    grunt.task.run("buildDev");
-
-    // start a local server
-    grunt.task.run("connect:local");
-
-    var conf = {
-      // reload the page when things change
-      options: { livereload: true },
-      // process style sheets on change
-      styles: {
-        files: [
-          STYLE_SOURCE_PATH + '/*.scss',
-          STYLE_SOURCE_PATH + '/**/*.scss'
-        ],
-        tasks: [
-          'compass:dev'
-        ]
-      },
-      // process js on change
-      scripts: {
-        files: [
-          SCRIPT_SOURCE_PATH + '/*.js',
-          SCRIPT_SOURCE_PATH + '/**/*.js'
-        ],
-        tasks: [
-          'jshint:dev',
-          'karma:unit',
-          'copy:scripts'
-        ]
-      },
-      // compile html business
-      markup: {
-        files: [
-          MARKUP_SOURCE_PATH + '/*.haml',
-          MARKUP_SOURCE_PATH + '/**/*.haml'
-        ],
-        tasks: [
-          'haml:dev'
-        ]
-      }
-    };
-
-    grunt.config('watch', conf);
-    grunt.task.run("watch");
-  });
-
-  grunt.registerTask('buildDev', function () {
-
-    grunt.task.run("clean");
-
-    grunt.task.run('compass:dev');
-    grunt.task.run('jshint:dev');
-    grunt.task.run('karma:unit');
-    grunt.task.run('copy:scripts');
-    grunt.task.run('haml:dev');
-  });
-
-  grunt.registerTask('buildDist', function () {
-
-    grunt.task.run("clean");
-    
-    grunt.task.run('compass:dist');
-    grunt.task.run('jshint:dist');
-    grunt.task.run('karma:unit');
-    grunt.task.run('requirejs:compile');
-    grunt.task.run('haml:dev');
-  });
-
-  // grunt.registerTask('default', ['compass:dist']);
+  // load tasks from the grunt tasks dir
+  grunt.task.loadTasks(GRUNT_TASKS_PATH);
 
 };
